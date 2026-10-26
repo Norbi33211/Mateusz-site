@@ -1,75 +1,296 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kim jest Mateusz Prevoz?</title>
+    <title>Kolegapedia – Oficjalne Archiwum Informacyjne</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            background: #121212; 
-            color: #ffffff; 
-            display: flex; 
-            justify-content: center; 
-            padding: 40px 20px;
+        /* Konfiguracja zmiennych dla motywu jasnego */
+        :root {
+            --primary-color: #1a365d;
+            --accent-color: #3182ce;
+            --bg-color: #f7fafc;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --text-muted: #4a5568;
+            --border-color: #e2e8f0;
+            --alert-bg: #fffaf0;
+            --alert-border: #dd6b20;
+            --infobox-img-bg: #edf2f7;
+            --infobox-img-text: #718096;
         }
-        .card { 
-            background: #1e1e1e; 
-            width: 100%; 
-            max-width: 400px; 
-            border-radius: 16px; 
-            padding: 30px; 
-            text-align: center; 
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+
+        /* Konfiguracja zmiennych dla motywu ciemnego */
+        [data-theme="dark"] {
+            --primary-color: #2b6cb0;
+            --accent-color: #63b3ed;
+            --bg-color: #1a202c;
+            --card-bg: #2d3748;
+            --text-color: #f7fafc;
+            --text-muted: #a0aec0;
+            --border-color: #4a5568;
+            --alert-bg: #2c251d;
+            --alert-border: #dd6b20;
+            --infobox-img-bg: #1a202c;
+            --infobox-img-text: #a0aec0;
         }
-        .profile-pic { 
-            width: 100px; 
-            height: 100px; 
-            background: #333; 
-            border-radius: 50%; 
-            margin: 0 auto 20px;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            background-color: #e53e3e;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        main {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.25rem;
+            margin-top: 2rem;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .politics-alert {
+            background-color: var(--alert-bg);
+            border-left: 4px solid var(--alert-border);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 4px 4px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .infobox {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .infobox-title {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .infobox-img {
+            width: 100%;
+            height: 200px;
+            background-color: var(--infobox-img-bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            color: var(--infobox-img-text);
+            font-style: italic;
+            border: 1px dashed var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
-        h1 { font-size: 24px; margin-bottom: 8px; color: #00ffaa; }
-        .tag { font-size: 14px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
-        .bio { font-size: 16px; line-height: 1.5; color: #ddd; margin-bottom: 25px; }
-        .links-title { font-size: 14px; text-align: left; color: #aaa; margin-bottom: 10px; font-weight: bold; }
-        .btn { 
-            display: block; 
-            background: #2a2a2a; 
-            color: #ffffff; 
-            text-decoration: none; 
-            padding: 12px; 
-            border-radius: 8px; 
-            margin-bottom: 12px; 
-            font-weight: 500;
-            transition: background 0.2s;
+
+        .infobox-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
         }
-        .btn:hover { background: #3a3a3a; color: #00ffaa; }
+
+        .infobox-table tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .infobox-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .infobox-table td {
+            padding: 0.5rem 0;
+            vertical-align: top;
+        }
+
+        .infobox-label {
+            font-weight: bold;
+            color: var(--text-muted);
+            width: 40%;
+            transition: color 0.3s ease;
+        }
+
+        /* Nowoczesny przełącznik motywu w rogu ekranu */
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="card">
-       
-<img src="mateusz1.png" alt="Friend's Profile" class="profile-pic">
+    <header>
+        <div class="header-container">
+            <div class="logo">KOLEGAPEDIA.PL</div>
+            <div class="badge">NA ŻYWO / AKTUALNOŚCI</div>
+        </div>
+    </header>
 
-        
-        <!-- Friend's Info (Change this text!) -->
-        <h1>Mateusz Prevoz</h1>
-        <div class="tag">Radny miasta Poznań</div>
-        <p class="bio">Mateusz Prevoz to Polityk urodzony w Śremie w 1982 roku, narodowości Polsko-Amerykańsko-Izraelskiej prawnik, były dziennikarz oraz Polityk.</p>
-        
-        <!-- Social Links (Change the URLs inside href="...") -->
-        <div class="links-title">Skontaktujmy się tutaj:</div>
-        <a class="btn" href="https://www.instagram.com/pisowiec_2027/" target="_blank">Instagram</a>
-        <a class="btn" href="https://www.tiktok.com/@mateusz.kasprzyk7" target="_blank">TikTok</a>
-        <a class="btn" href="https://spotify.com" target="_blank">Favorite Playlist</a>
-    </div>
+    <div class="container">
+        <main>
+            <h1>Imię i Nazwisko Kolegi</h1>
+            
+            <p><strong>Imię i Nazwisko Kolegi</strong> (ur. 1 stycznia 2000 roku) – wybitna osobowość, strateg, myśliciel oraz kluczowa postać w lokalnym ekosystemie towarzyskim. Znany ze swoich niekonwencjonalnych teorii oraz unikalnego podejścia do życia codziennego.</p>
 
-</body>
-</html>
+            <div class="politics-alert">
+                <strong>[KOMUNIKAT SPECJALNY] Bieżąca aktywność polityczna:</strong><br>
+                Tutaj możesz wpisać aktualne newsy polityczne o koledze, np. jego ostatnie orędzia, dekrety wydane na czacie grupowym albo stanowisko w sprawach kluczowych dla Waszej paczki.
+            </div>
+
+            <h2>Wczesne lata i edukacja</h2>
+            <p>Tutaj wpisz zabawne historie z dzieciństwa lub szkoły. Możesz pisać w poważnym tonie encyklopedycznym, co da świetny, komiczny kontrast z luźną treścią.</p>
+
+            <h2>Program Polityczny i Ideologia</h2>
+            <p>Miejsce na Twoje wpisy o jego poglądach. Możesz tu stworzyć listę jego głównych postulatów politycznych:</p>
+            <ul>
+                <li><strong>Postulat 1:</strong> Opis jakiejś śmiesznej zasady, którą kolega próbuje wprowadzić w życie.</li>
+                <li><strong>Postulat 2:</strong> Jego oficjalne stanowisko w sprawie spóźniania się na spotkania.</li>
+                <li><strong>Postulat 3:</strong> Reformy gospodarcze (np. zarządzanie wspólnym budżetem na wyjścia).</li>
+            </ul>
+
+            <h2>Kontrowersje i debaty</h2>
+            <p>Każdy polityk i celebryta z Mammonpedii ma swoje afery. W tym miejscu możesz opisać słynne kłótnie, przegrane mecze w grach albo sytuacje, w których "nie miał racji, ale i tak się kłócił".</p>
+        </main>
+
+        <aside class="infobox">
+            <div class="infobox-title">Informacje o obiekcie</div>
+            
+            <div class="infobox-img">
+                Miejsce na zdjęcie kolegi
+            </div>
+
+            <table class="infobox-table">
+                <tr>
+                    <td class="infobox-label">Pseudonim</td>
+                    <td>Tutaj wpisz pseudonimy</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Data urodzenia</td>
+                    <td>1 stycznia 2000 r.</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Partia polityczna</td>
+                    <td>Wpisz nazwę jego partii</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Główny wróg</td>
+                    <td>Budzik o 6:00 rano</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Status prawny</td>
+                    <td>Poszukiwany za unikanie grania w CS'a</td>
+                </tr>
+                <tr>
+                    <td class="infobox-label">Ulubione powiedzenie</td>
+                    <td>"Zaraz będę" (będzie za godzinę)</td>
+                </tr>
+            </table>
